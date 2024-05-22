@@ -1,4 +1,4 @@
-package com.example.firma_it;
+package com.example.it_company;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

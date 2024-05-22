@@ -9,13 +9,15 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>agc</artifactId>
+	<artifactId>it company</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>agc</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>
 		<vaadin.version>24.3.3</vaadin.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 	<repositories>
 		<repository>
@@ -42,10 +44,12 @@
 			<artifactId>crudui</artifactId>
 			<version>7.1.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.mysql</groupId>

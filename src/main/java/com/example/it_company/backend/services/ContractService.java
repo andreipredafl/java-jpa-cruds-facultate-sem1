@@ -1,5 +1,6 @@
-package com.example.it_company.backend;
+package com.example.it_company.backend.services;
 
+import com.example.it_company.backend.Contract;
 import com.example.it_company.backend.repositories.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

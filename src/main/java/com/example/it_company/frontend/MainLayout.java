@@ -1,4 +1,4 @@
-package com.example.firma_it.frontend;
+package com.example.it_company.frontend;
 
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -29,19 +29,20 @@ public class MainLayout extends AppLayout {
     }
 
     private void createDrawer() {
-        RouterLink customerLink = new RouterLink("Suppliers", SupplierView.class);
-        customerLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        RouterLink employeesLink = new RouterLink("Employees", EmployeeView.class);
-        employeesLink.setHighlightCondition(HighlightConditions.sameLocation());
+        RouterLink clientsLink = new RouterLink("Clienti", ClientView.class);
+        clientsLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        RouterLink farmsLink = new RouterLink("Farms", FarmView.class);
-        farmsLink.setHighlightCondition(HighlightConditions.sameLocation());
+        RouterLink contractsLink = new RouterLink("Contracte", ContractView.class);
+        contractsLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+        RouterLink contractSocumentsLink = new RouterLink("Documente asociate la contracte", ContractDocumentView.class);
+        contractSocumentsLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
-                customerLink,
-                employeesLink,
-                farmsLink
+            clientsLink,
+            contractsLink,
+            contractSocumentsLink
         ));
     }
 }
