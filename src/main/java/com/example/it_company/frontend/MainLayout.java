@@ -29,20 +29,39 @@ public class MainLayout extends AppLayout {
     }
 
     private void createDrawer() {
-
         RouterLink clientsLink = new RouterLink("Clienti", ClientView.class);
         clientsLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         RouterLink contractsLink = new RouterLink("Contracte", ContractView.class);
         contractsLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        RouterLink contractSocumentsLink = new RouterLink("Documente asociate la contracte", ContractDocumentView.class);
-        contractSocumentsLink.setHighlightCondition(HighlightConditions.sameLocation());
+        RouterLink contractDocumentsLink = new RouterLink("Documente asociate la contracte", ContractDocumentView.class);
+        contractDocumentsLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+        RouterLink projectsLink = new RouterLink("Proiecte", ProjectView.class);
+        projectsLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+        RouterLink projectTasksLink = new RouterLink("Task-uri proiect", ProjectTaskView.class);
+        projectTasksLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+        RouterLink usersLink = new RouterLink("Utilizatori", UserView.class);
+        usersLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+        RouterLink teamsLink = new RouterLink("Echipe", TeamView.class);
+        teamsLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+        RouterLink teamMembersLink = new RouterLink("Membri Echipe", TeamMemberView.class);
+        teamMembersLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
-            clientsLink,
-            contractsLink,
-            contractSocumentsLink
+                clientsLink,
+                contractsLink,
+                contractDocumentsLink,
+                projectsLink,
+                projectTasksLink,
+                usersLink,
+                teamsLink,
+                teamMembersLink
         ));
     }
 }

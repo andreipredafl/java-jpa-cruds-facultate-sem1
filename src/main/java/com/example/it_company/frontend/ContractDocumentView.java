@@ -5,14 +5,19 @@ import com.example.it_company.backend.ContractDocument;
 import com.example.it_company.backend.services.ContractDocumentService;
 import com.example.it_company.backend.services.ContractService;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import org.vaadin.crudui.crud.impl.GridCrud;
 
-import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,10 +37,13 @@ public class ContractDocumentView extends VerticalLayout {
 
         // Add a custom column with a download button
         crud.getGrid().addComponentColumn(document -> {
-            Button downloadButton = new Button("Download", clickEvent -> {
-                downloadDocument(document);
-            });
-            return downloadButton;
+            StreamResource resource = createStreamResource(document);
+            Anchor downloadLink = new Anchor(resource, "");
+            Button downloadButton = new Button("Download");
+            downloadButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            downloadLink.add(downloadButton);
+            downloadLink.getElement().setAttribute("download", true);
+            return downloadLink;
         }).setHeader("Download");
 
         // Set visible properties for the form
@@ -57,37 +65,25 @@ public class ContractDocumentView extends VerticalLayout {
         add(crud);
     }
 
-    private void downloadDocument(ContractDocument document) {
+    private StreamResource createStreamResource(ContractDocument document) {
         try {
             Path filePath = Paths.get(document.getDocumentPath());
-            File file = filePath.toFile();
-            if (file.exists()) {
-                byte[] data = Files.readAllBytes(filePath);
-                // Create a temporary file and write the data to it
-                Path tempFile = Files.createTempFile(file.getName(), null);
-                Files.write(tempFile, data);
-
-                // Use Vaadin's StreamResource for file download
-                com.vaadin.flow.server.StreamResource resource = new com.vaadin.flow.server.StreamResource(
-                        file.getName(),
-                        () -> {
-                            try {
-                                return Files.newInputStream(tempFile);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                return null;
-                            }
-                        });
-
-                com.vaadin.flow.component.html.Anchor downloadLink = new com.vaadin.flow.component.html.Anchor(resource, "");
-                downloadLink.getElement().setAttribute("download", true);
-                downloadLink.click();
+            if (Files.exists(filePath)) {
+                return new StreamResource(filePath.getFileName().toString(), () -> {
+                    try {
+                        return Files.newInputStream(filePath);
+                    } catch (Exception e) {
+                        Notification.show("Error reading file: " + e.getMessage());
+                        return null;
+                    }
+                });
             } else {
-                com.vaadin.flow.component.notification.Notification.show("File not found");
+                Notification.show("File not found");
+                return null;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            com.vaadin.flow.component.notification.Notification.show("Error downloading file: " + e.getMessage());
+            Notification.show("Error creating download link: " + e.getMessage());
+            return null;
         }
     }
 }

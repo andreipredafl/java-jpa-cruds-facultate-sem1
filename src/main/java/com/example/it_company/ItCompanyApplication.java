@@ -1,9 +1,7 @@
 package com.example.it_company;
 
 import com.example.it_company.backend.*;
-import com.example.it_company.backend.repositories.ClientRepository;
-import com.example.it_company.backend.repositories.ContractDocumentRepository;
-import com.example.it_company.backend.repositories.ContractRepository;
+import com.example.it_company.backend.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -28,10 +26,22 @@ public class ItCompanyApplication {
 	public CommandLineRunner loadData(
 			ClientRepository clientRepository,
 			ContractRepository contractRepository,
-			ContractDocumentRepository contractDocumentRepository
+			ContractDocumentRepository contractDocumentRepository,
+			ProjectRepository projectRepository,
+			ProjectTaskRepository projectTaskRepository,
+			UserRepository userRepository,
+			TeamRepository teamRepository,
+			TeamMemberRepository teamMemberRepository,
+			ProjectTeamRepository projectTeamRepository
 	) {
 		return (args) -> {
 			// Clean the database
+			projectTeamRepository.deleteAll();
+			teamMemberRepository.deleteAll();
+			teamRepository.deleteAll();
+			userRepository.deleteAll();
+			projectTaskRepository.deleteAll();
+			projectRepository.deleteAll();
 			contractDocumentRepository.deleteAll();
 			contractRepository.deleteAll();
 			clientRepository.deleteAll();
@@ -67,76 +77,94 @@ public class ItCompanyApplication {
 			client3.setUpdatedAt(LocalDate.now());
 			clientRepository.save(client3);
 
-			// Add initial data for Contracts
-			Contract contract1 = new Contract();
-			contract1.setClient(client1);
-			contract1.setContractName("Contract Dezvoltare");
-			contract1.setSeries("DEV");
-			contract1.setNumber("001");
-			contract1.setPeriodMonths(12);
-			contract1.setStartDate(LocalDate.now());
-			contract1.setEndDate(LocalDate.now().plusMonths(12));
-			contract1.setStatus("activ");
-			contract1.setDescription("Contract pentru servicii de dezvoltare software.");
-			contract1.setCreatedAt(LocalDate.now());
-			contract1.setUpdatedAt(LocalDate.now());
-			contractRepository.save(contract1);
+			// Add initial data for Users
+			User user1 = new User();
+			user1.setName("John Doe");
+			user1.setEmail("john.doe@example.com");
+			user1.setPassword("password");
+			user1.setRole("developer");
+			user1.setCreatedAt(LocalDate.now());
+			user1.setUpdatedAt(LocalDate.now());
+			userRepository.save(user1);
 
-			Contract contract2 = new Contract();
-			contract2.setClient(client2);
-			contract2.setContractName("Contract Mentenanta");
-			contract2.setSeries("MNT");
-			contract2.setNumber("002");
-			contract2.setPeriodMonths(6);
-			contract2.setStartDate(LocalDate.now());
-			contract2.setEndDate(LocalDate.now().plusMonths(6));
-			contract2.setStatus("activ");
-			contract2.setDescription("Contract pentru servicii de mentenanta IT.");
-			contract2.setCreatedAt(LocalDate.now());
-			contract2.setUpdatedAt(LocalDate.now());
-			contractRepository.save(contract2);
+			User user2 = new User();
+			user2.setName("Jane Smith");
+			user2.setEmail("jane.smith@example.com");
+			user2.setPassword("password");
+			user2.setRole("project_manager");
+			user2.setCreatedAt(LocalDate.now());
+			user2.setUpdatedAt(LocalDate.now());
+			userRepository.save(user2);
 
-			Contract contract3 = new Contract();
-			contract3.setClient(client3);
-			contract3.setContractName("Contract Consultanta");
-			contract3.setSeries("CNS");
-			contract3.setNumber("003");
-			contract3.setPeriodMonths(3);
-			contract3.setStartDate(LocalDate.now());
-			contract3.setEndDate(LocalDate.now().plusMonths(3));
-			contract3.setStatus("activ");
-			contract3.setDescription("Contract pentru servicii de consultanta IT.");
-			contract3.setCreatedAt(LocalDate.now());
-			contract3.setUpdatedAt(LocalDate.now());
-			contractRepository.save(contract3);
+			User user3 = new User();
+			user3.setName("Mike Johnson");
+			user3.setEmail("mike.johnson@example.com");
+			user3.setPassword("password");
+			user3.setRole("client");
+			user3.setCreatedAt(LocalDate.now());
+			user3.setUpdatedAt(LocalDate.now());
+			userRepository.save(user3);
 
-			// Add initial data for Contract Documents
-			ContractDocument document1 = new ContractDocument();
-			document1.setContract(contract1);
-			document1.setDocumentName("Contract Document 1");
-			document1.setDocumentPath("/path/to/document1.pdf");
-			document1.setDocumentType("contract");
-			document1.setCreatedAt(LocalDate.now());
-			document1.setUpdatedAt(LocalDate.now());
-			contractDocumentRepository.save(document1);
+			// Add initial data for Teams
+			Team team1 = new Team();
+			team1.setName("Development Team");
+			team1.setDescription("Team responsible for development");
+			team1.setCreatedAt(LocalDate.now());
+			team1.setUpdatedAt(LocalDate.now());
+			teamRepository.save(team1);
 
-			ContractDocument document2 = new ContractDocument();
-			document2.setContract(contract2);
-			document2.setDocumentName("Contract Document 2");
-			document2.setDocumentPath("/path/to/document2.pdf");
-			document2.setDocumentType("contract");
-			document2.setCreatedAt(LocalDate.now());
-			document2.setUpdatedAt(LocalDate.now());
-			contractDocumentRepository.save(document2);
+			Team team2 = new Team();
+			team2.setName("QA Team");
+			team2.setDescription("Team responsible for quality assurance");
+			team2.setCreatedAt(LocalDate.now());
+			team2.setUpdatedAt(LocalDate.now());
+			teamRepository.save(team2);
 
-			ContractDocument document3 = new ContractDocument();
-			document3.setContract(contract3);
-			document3.setDocumentName("Contract Document 3");
-			document3.setDocumentPath("/path/to/document3.pdf");
-			document3.setDocumentType("contract");
-			document3.setCreatedAt(LocalDate.now());
-			document3.setUpdatedAt(LocalDate.now());
-			contractDocumentRepository.save(document3);
+			// Add initial data for Team Members
+			TeamMember member1 = new TeamMember();
+			member1.setTeam(team1);
+			member1.setUser(user1);
+			member1.setRole("team_leader");
+			member1.setJoinedAt(LocalDate.now());
+			teamMemberRepository.save(member1);
+
+			TeamMember member2 = new TeamMember();
+			member2.setTeam(team1);
+			member2.setUser(user2);
+			member2.setRole("member");
+			member2.setJoinedAt(LocalDate.now());
+			teamMemberRepository.save(member2);
+
+			// Add initial data for Projects
+			Project project1 = new Project();
+			project1.setClient(client1);
+			project1.setName("Proiect Dezvoltare");
+			project1.setDescription("Proiect de dezvoltare software.");
+			project1.setStartDate(LocalDate.now());
+			project1.setEndDate(LocalDate.now().plusMonths(6));
+			project1.setStatus("in_progress");
+			project1.setCreatedAt(LocalDate.now());
+			project1.setUpdatedAt(LocalDate.now());
+			projectRepository.save(project1);
+
+			// Add initial data for Project Tasks
+			ProjectTask task1 = new ProjectTask();
+			task1.setProject(project1);
+			task1.setTitle("Task 1");
+			task1.setDescription("Primul task al proiectului.");
+			task1.setStatus("pending");
+			task1.setStartDate(LocalDate.now());
+			task1.setEndDate(LocalDate.now().plusWeeks(1));
+			task1.setCreatedAt(LocalDate.now());
+			task1.setUpdatedAt(LocalDate.now());
+			projectTaskRepository.save(task1);
+
+			// Add initial data for Project Teams
+			ProjectTeam projectTeam1 = new ProjectTeam();
+			projectTeam1.setProject(project1);
+			projectTeam1.setTeam(team1);
+			projectTeam1.setAssignedAt(LocalDate.now());
+			projectTeamRepository.save(projectTeam1);
 		};
 	}
 }

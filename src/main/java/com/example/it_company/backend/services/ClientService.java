@@ -21,9 +21,7 @@ public class ClientService {
         return repository.findAll();
     }
 
-    public Client save(Client client) {
-        return repository.save(client);
-    }
+    public Client save(Client client) { return repository.save(client); }
 
     public void delete(Client client) {
         repository.delete(client);
