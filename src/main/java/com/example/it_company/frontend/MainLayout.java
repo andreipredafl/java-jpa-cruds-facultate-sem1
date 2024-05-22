@@ -1,4 +1,4 @@
-package com.example.agc.frontend;
+package com.example.firma_it.frontend;
 
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;

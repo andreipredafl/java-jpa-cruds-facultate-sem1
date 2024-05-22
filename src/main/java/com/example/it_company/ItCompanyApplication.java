@@ -1,7 +1,6 @@
-package com.example.agc;
+package com.example.firma_it;
 
-import com.example.agc.backend.*;
-import com.example.agc.frontend.FarmView;
+import com.example.firma_it.backend.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -14,7 +13,7 @@ import java.time.LocalDate;
 
 @SpringBootApplication
 @Configuration
-public class AgcApplication {
+public class ItCompanyApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(AgcApplication.class);
 
